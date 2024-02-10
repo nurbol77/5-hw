@@ -20,3 +20,5 @@ class ConfirmSerializer(serializers.ModelSerializer):
     class Meta:
         model = Confirm
         fields = ('confirm',)
+
+

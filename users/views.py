@@ -5,10 +5,17 @@ from django.contrib.auth.models import User
 from django.shortcuts import get_object_or_404
 from rest_framework.authtoken.models import Token
 from rest_framework.decorators import api_view
+
 from rest_framework.response import Response
 
 from users.models import Confirm
 from users.serializers import RegisterSerializer, ConfirmSerializer
+
+
+# class RegisterAPIView(APIView):
+#     serializer_class = ReviewSerializers
+
+    # def post(self, request):
 
 
 @api_view(['POST'])
@@ -33,13 +40,13 @@ def confirm(request):
 
 
 @api_view(['POST'])
-def Login_view(request):
+def login_view(request):
     serializer = RegisterSerializer(data=request.data)
     serializer.is_valid(raise_exception=True)
     user = authenticate(**serializer.validated_data)
-    if user :
+    if user:
         login(request, user)
         token, created = Token.objects.get_or_create(user=user)
         user.save()
-        return  Response({'token':token.key})
-    return  Response({'errno':'Invalid data'}, status=400)
+        return Response({'token': token.key})
+    return Response({'errno': 'Invalid data'}, status=400)
